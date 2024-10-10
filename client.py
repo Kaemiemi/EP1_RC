@@ -4,8 +4,8 @@ def start_client(host='localhost', port=12345):
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client_socket.connect((host, port))
 
-    print("Conectado ao servidor de enquetes.")
-    print("Comandos disponíveis: CREATE <pergunta>, VOTE <ID>, LIST, RESULTS <ID>")
+    print("Conectado ao servidor de adivinhação.")
+    print("Comandos disponíveis: PROTO-START, PROTO-GUESS <número>, PROTO-SCORE, PROTO-END")
 
     try:
         while True:
