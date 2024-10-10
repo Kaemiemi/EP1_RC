@@ -45,11 +45,11 @@ def processa_requisicao(requisicao, nome_do_jogador):
         if len(pedido) > 1:
             guess = int(pedido[1]) # guess = "42"
             return adivinha_numero(nome_do_jogador, guess)
-        return "Erro: Forneça um número para adivinhar!"
+        return "Erro: Forneça um número para adivinhar!" #caso usuario digite "GUESS " (sem um chute)
     elif comando == "SCORE":
         return pontuacao(nome_do_jogador)
     elif comando == "END":
-        return end_game()
+        return finalizar_jogo()
     else:
         return "Comando inválido!"
 
@@ -60,7 +60,7 @@ def inicia_jogo():
             return "Jogo já iniciado!"
         numero_para_adivinhar = random.randint(1, 100) #gera um numero aleatorio para adivinhar
         jogo_comecou = True
-        print(f"Novo número gerado: {numero_para_adivinhar}")
+       # print(f"Novo número gerado: {numero_para_adivinhar}") mano pq q isso aqui ta no codigo preciso rodar pra ver
         return "START: Jogo iniciado! Adivinhe um número entre 1 e 100."
 
 def adivinha_numero(nome_do_jogador, guess):
@@ -72,15 +72,15 @@ def adivinha_numero(nome_do_jogador, guess):
         return "resposta: Seu palpite é muito baixo."
     elif guess > numero_para_adivinhar:
         return "resposta: Seu palpite é muito alto."
-    else:
-        jogadores[nome_do_jogador]["score"] += 1
+    else: #ideia: acho que a gente poderia variar a pontuacao, se acertar de primeira dá 10 pontos, e vai diminuindo conforme as tentativas
+        jogadores[nome_do_jogador]["score"] += 1 #queria mudar a variavel score pra pontuacao :(
         return f"resposta: Correto! {nome_do_jogador} ganhou 1 ponto."
 
 def pontuacao(nome_do_jogador):
     score = jogadores[nome_do_jogador]["score"]
     return f"SCORE: Sua pontuação é {score}."
 
-def end_game():
+def finalizar_jogo():
     global jogo_comecou
     with lock:
         if not jogo_comecou:
