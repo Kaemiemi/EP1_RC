@@ -27,7 +27,7 @@ def recebe_cliente(socket_do_cliente, addr):
 
                 #processa o comando do cliente e devolve uma reposta
                 resposta = processa_requisicao(requisicao, nome_do_jogador)
-                socket_do_cliente.sendall(resposta.encode())
+                socket_do_cliente.sendall(resposta.encode()) #manda resposta
             except:
                 break #caso aconteça algum erro, saímos do loop
 
@@ -60,9 +60,10 @@ def inicia_jogo():
             return "Jogo já iniciado!"
         numero_para_adivinhar = random.randint(1, 100) #gera um numero aleatorio para adivinhar
         jogo_comecou = True
-       # print(f"Novo número gerado: {numero_para_adivinhar}") mano pq q isso aqui ta no codigo preciso rodar pra ver
+        print(f"Novo número gerado: {numero_para_adivinhar}") #imprime o numero no servidor
         return "START: Jogo iniciado! Adivinhe um número entre 1 e 100."
 
+#recebe um chute e devolve uma resposta de acordo com o guess, caso acerte, ganha pontos
 def adivinha_numero(nome_do_jogador, guess):
     global numero_para_adivinhar
     if not jogo_comecou:
@@ -80,6 +81,7 @@ def pontuacao(nome_do_jogador):
     score = jogadores[nome_do_jogador]["score"]
     return f"SCORE: Sua pontuação é {score}."
 
+#ao finalizar o jogo, é dado as pontuações de todos os jogadores
 def finalizar_jogo():
     global jogo_comecou
     with lock:
