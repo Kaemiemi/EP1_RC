@@ -5,7 +5,7 @@ def start_client(host='localhost', port=12345):
     socket_do_cliente.connect((host, port))
 
     print("Conectado ao servidor de adivinhação.")
-    print("Comandos disponíveis: PROTO-START, PROTO-GUESS <número>, PROTO-SCORE, PROTO-END")
+    print("Comandos disponíveis: START, GUESS <número>, SCORE, END")
 
     try:
         while True:
