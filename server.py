@@ -92,17 +92,26 @@ def finalizar_jogo():
     scores = "\n".join([f"{player}: {data['score']} pontos" for player, data in jogadores.items()])
     return f"END: Jogo encerrado!\nPontuações finais:\n{scores}"
 
+#Inicia o servidor no IP host e porta
 def start_server(host='localhost', port=12345):
-    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_socket.bind((host, port))
-    server_socket.listen(5)
-    print(f"Servidor de Adivinhação rodando em {host}:{port}...")
+    try:
+        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server_socket.bind((host, port))
+        server_socket.listen(5)
+        print(f"Servidor de Adivinhação rodando em {host}:{port}...")
+
+    except Exception as e:
+        print(f"Erro ao iniciar o servidor: {e}")
+        return
 
     while True:
-        socket_do_cliente, addr = server_socket.accept()
-        print(f"Conexão de {addr}")
-        client_handler = threading.Thread(target=recebe_cliente, args=(socket_do_cliente, addr))
-        client_handler.start()
+        try:
+            socket_do_cliente, addr = server_socket.accept()
+            print(f"Conexão de {addr}")
+            client_handler = threading.Thread(target=recebe_cliente, args=(socket_do_cliente, addr))
+            client_handler.start()
+        except Exception as e:
+            print(f"Erro ao aceitar conexão: {e}")
 
 if __name__ == "__main__":
     start_server()
