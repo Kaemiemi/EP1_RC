@@ -95,9 +95,9 @@ def finalizar_jogo():
 #Inicia o servidor no IP host e porta
 def start_server(host='localhost', port=12345):
     try:
-        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        server_socket.bind((host, port))
-        server_socket.listen(5)
+        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #cria socket TCP
+        server_socket.bind((host, port)) #associa o socket a um endereço e porta !! https://docs.python.org/3/howto/sockets.html (talvez esse seja o segredo para aceitar conexoes de outras maquinas...)
+        server_socket.listen(5) #servidor ouve até 5 conexões ao mesmo tempo
         print(f"Servidor de Adivinhação rodando em {host}:{port}...")
 
     except Exception as e:
@@ -106,10 +106,12 @@ def start_server(host='localhost', port=12345):
 
     while True:
         try:
-            socket_do_cliente, addr = server_socket.accept()
+            socket_do_cliente, addr = server_socket.accept() #aceita conexão do cliente; accept() retorna o socket e um endereço (IP e porta)
             print(f"Conexão de {addr}")
-            client_handler = threading.Thread(target=recebe_cliente, args=(socket_do_cliente, addr))
-            client_handler.start()
+            #aqui ele cria uma thread para lidar com o cliente
+            client_handler = threading.Thread(target=recebe_cliente, args=(socket_do_cliente, addr)) #cria thread que vai para recebe_cliente() com os argumentos socket_do_cliente e addr
+            client_handler.start() #inicia a thread
+        #caso tenha acontecido algum erro na conexão
         except Exception as e:
             print(f"Erro ao aceitar conexão: {e}")
 
